@@ -10,6 +10,9 @@ fi
 cp setup_web.sh $INSTALL_DIR
 chmod +x $INSTALL_DIR/setup_web.sh
 
+cp letsencrypt.sh $INSTALL_DIR
+chmod +x $INSTALL_DIR/letsencrypt.sh
+
 cp config.sh $INSTALL_DIR
 chmod +x $INSTALL_DIR/config.sh
 
