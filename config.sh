@@ -11,7 +11,12 @@ function question {
         shift
         default=$1
         
-        echo "$question (default - $default)"
+        if [[ -z $default ]]; then
+                echo "$question"
+        else
+                echo "$question (default - $default)"
+        fi
+        
         read answer
         if [[ -z $answer ]]; then
                 answer=$default
