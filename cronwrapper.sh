@@ -6,7 +6,8 @@
 # == source the config file
 
 if [[ ! -f /etc/server-build.sh ]]; then
-        You need to run config.sh first
+        echo "You need to run config.sh first"
+        exit 1
 fi
 . /etc/server-build.sh
 
