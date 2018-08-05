@@ -9,9 +9,14 @@ function question {
         shift
         question=$1
         shift
-
-        echo $question
+        default=$1
+        
+        echo "$question (default - $default)"
         read answer
+        if [[ -z $answer ]]; then
+                answer=$default
+        fi
+        
         update_config $parameter $answer
 }
 
@@ -35,5 +40,6 @@ fi
 touch $CONFIG
 
 question admin_email "What is your admin email address"
+question log_path "Where would you like to store the system logs" /var/log/server-build
 
 chmod +x $CONFIG
