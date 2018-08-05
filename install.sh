@@ -38,3 +38,6 @@ cp maintain_os.sh $INSTALL_DIR
 chmod +x $INSTALL_DIR/maintain_os.sh
 
 bash install_crontab.sh
+
+echo "export PATH=$PATH:$app_path" >> /etc/profile.
+export PATH=$PATH:$app_path
