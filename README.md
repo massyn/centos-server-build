@@ -14,7 +14,7 @@ passwd newuser
 ```
 * Add the user to the _wheel_ group (so they can sudo)
 ```bash
-usermod -aG wheen newuser
+usermod -aG wheel newuser
 ```
 * Harden the server with https://github.com/massyn/centos-cis-benchmark
 * Do a full update
