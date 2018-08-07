@@ -41,4 +41,5 @@ done
 bash install_crontab.sh
 
 echo "export PATH=\$PATH:$app_path" >> /etc/profile
+echo "export PATH=\$PATH:$app_path" >> /etc/bashrc
 export PATH=$PATH:$app_path
