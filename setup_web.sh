@@ -92,13 +92,6 @@ if [[ ! -z $site ]]; then
                 mkdir $wwwroot/$site/www
         fi
 
-        # == create a basic page
-        if [[ ! -f $basedir/index.html ]]; then
-                echo " - creating default index.html..."
-                echo "<html>" > $basedir/index.html
-                echo "<h1>$site</h1>" >> $basedir/index.html
-                echo "</html>" >> $basedir/index.html
-        fi
         echo " - setting ownership..."
         chown -R $wwwuser:$wwwgroup $wwwroot/$site
 
