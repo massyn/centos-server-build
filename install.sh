@@ -18,8 +18,7 @@ fi
 INSTALL_DIR=$app_path
 
 if [[ ! -d $INSTALL_DIR ]]; then
-  echo "Installation directory $INSTALL_DIR does not exist"
-  exit 1
+        mkdir $INSTALL_DIR
 fi
 
 for name in 'setup_web.sh letsencrypt.sh config.sh cronwrapper.sh maintain_os.sh maintain_av.sh setup_db.sh'
