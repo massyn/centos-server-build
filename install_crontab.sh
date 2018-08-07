@@ -19,5 +19,8 @@ if [[ ! -f /etc/server-build.sh ]]; then
 fi
 . /etc/server-build.sh
 
+# do patching once per week
 addtocrontab "0 0 * * 0" "$app_path/cronwrapper.sh maintain_os $app_path/maintain_os.sh"
 
+# check for viruses once a day
+addtocrontab "0 1 * * *" "$app_path/cronwrapper.sh maintain_av $app_path/maintain_av.sh"
