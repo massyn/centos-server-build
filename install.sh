@@ -22,20 +22,12 @@ if [[ ! -d $INSTALL_DIR ]]; then
   exit 1
 fi
 
-cp setup_web.sh $INSTALL_DIR
-chmod +x $INSTALL_DIR/setup_web.sh
-
-cp letsencrypt.sh $INSTALL_DIR
-chmod +x $INSTALL_DIR/letsencrypt.sh
-
-cp config.sh $INSTALL_DIR
-chmod +x $INSTALL_DIR/config.sh
-
-cp cronwrapper.sh $INSTALL_DIR
-chmod +x $INSTALL_DIR/cronwrapper.sh
-
-cp maintain_os.sh $INSTALL_DIR
-chmod +x $INSTALL_DIR/maintain_os.sh
+for name in 'setup_web.sh letsencrypt.sh config.sh cronwrapper.sh maintain_os.sh setup_db.sh'
+do
+        echo $name
+        cp $name $INSTALL_DIR
+        chmod +x $INSTALL_DIR/$name
+done
 
 bash install_crontab.sh
 
