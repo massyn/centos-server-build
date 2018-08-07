@@ -26,8 +26,6 @@ fi
 if [[ -z $(getent group $wwwgroup) ]]; then
         echo "Group $wwwgroup does not exist... Creating"
         groupadd $wwwgroup
-        echo "Adding $wwwuser to the group $wwwgroup"
-        usermod -a -G $wwwgroup $wwwuser
         echo "Adding $SUDO_USER to the group $wwwgroup"
         usermod -a -G $wwwgroup $SUDO_USER
 else
@@ -64,6 +62,14 @@ if [[ $? -ne 0 ]]; then
         systemctl start php-fpm
         systemctl enable php-fpm
 fi
+
+if [[ getent group $wwwgroup | grep &>/dev/null "\b${wwwuser}\b" ]]; then
+        echo "User $wwwuser is in the group $wwwgroup"
+else
+        echo "Adding $wwwuser to the group $wwwgroup"
+        usermod -a -G $wwwgroup $wwwuser
+fi
+        
 # == check if wwwroot exists
 if [[ ! -d $wwwroot ]]; then
         echo "Creating $wwwroot"
