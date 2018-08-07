@@ -35,7 +35,7 @@ for name in $(echo setup_web.sh letsencrypt.sh config.sh cronwrapper.sh maintain
 do
         echo $name
         cp $name $app_path
-        chmod 755 $app_path/$name
+        chmod 750 $app_path/$name
 done
 
 bash install_crontab.sh
