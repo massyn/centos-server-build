@@ -21,7 +21,7 @@ if [[ ! -d $INSTALL_DIR ]]; then
         mkdir $INSTALL_DIR
 fi
 
-for name in 'setup_web.sh letsencrypt.sh config.sh cronwrapper.sh maintain_os.sh maintain_av.sh setup_db.sh'
+for name in $(echo setup_web.sh letsencrypt.sh config.sh cronwrapper.sh maintain_os.sh maintain_av.sh setup_db.sh)
 do
         echo $name
         cp $name $INSTALL_DIR
