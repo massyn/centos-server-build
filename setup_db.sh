@@ -22,9 +22,11 @@ rpm -q mariadb | grep -Eq "^mariadb-"
 if [[ $? -ne 0 ]]; then
         echo "Installing mariadb..."
         yum install -y mariadb-server
-        mysql_secure_installation
+        systemctl start mariadb
         systemctl enable mariadb
+        mysql_secure_installation
 fi
+
 if [[ ! -z $db ]]; then
         echo "Create a new database - $db"
         echo "create database $db;" | mysql
