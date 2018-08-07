@@ -63,7 +63,7 @@ if [[ $? -ne 0 ]]; then
         systemctl enable php-fpm
 fi
 
-if [[ getent group $wwwgroup | grep &>/dev/null "\b${wwwuser}\b" ]]; then
+if getent group $wwwgroup | grep &>/dev/null "\b${wwwuser}\b" ; then
         echo "User $wwwuser is in the group $wwwgroup"
 else
         echo "Adding $wwwuser to the group $wwwgroup"
