@@ -47,5 +47,6 @@ touch $CONFIG
 question admin_email "What is your admin email address"
 question app_path "Where would you like to store the application" /usr/bin/server-build
 question log_path "Where would you like to store the system logs" /var/log/server-build
+question backup_path "Where would you like to store the backups" /root/backup
 
 chmod +x $CONFIG
