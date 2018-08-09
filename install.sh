@@ -31,7 +31,7 @@ if [[ ! -d $backup_path ]]; then
         chmod 600 $backup_path
 fi
 
-for name in $(echo setup_web.sh letsencrypt.sh config.sh cronwrapper.sh maintain_os.sh maintain_av.sh setup_db.sh)
+for name in $(echo setup_web.sh letsencrypt.sh config.sh cronwrapper.sh maintain_os.sh maintain_av.sh setup_db.sh server-status.sh)
 do
         echo $name
         cp $name $app_path
