@@ -123,13 +123,16 @@ if [[ ! -z $site ]]; then
         if [[ -f "/etc/letsencrypt/live/$site/fullchain.pem" ]]; then
                 echo "" >> $cfg
                 echo "  # - SSL config" >> $cfg
+                echo "  ssl_trusted_certificate \"/etc/letsencrypt/live/$site/chain.pem\";" >> $cfg
                 echo "  ssl_certificate \"/etc/letsencrypt/live/$site/cert.pem\";" >> $cfg
                 echo "  ssl_certificate_key \"/etc/letsencrypt/live/$site/privkey.pem\";" >> $cfg
-                echo "  ssl_session_cache shared:SSL:1m;" >> $cfg
-                echo "  ssl_session_timeout  10m;" >> $cfg
-                echo "  ssl_ciphers HIGH:!aNULL:!MD5;" >> $cfg
+                echo "  ssl_session_cache shared:SSL:50m;" >> $cfg
+                echo "  ssl_session_timeout  1d;" >> $cfg
+                echo "  ssl_ciphers 'ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256';" >> $cfg
                 echo "  ssl_prefer_server_ciphers on;" >> $cfg
                 echo "  ssl_protocols TLSv1.1 TLSv1.2;" >> $cfg
+                echo "  ssl_stapling on;" >> $cfg
+                echo "  ssl_stapling_verify on;" >> $cfg
                 echo "" >> $cfg
                 echo "  # - Redirect unencrypted traffic to be encrypted" >> $cfg
                 echo "  if (\$server_port = 80) {" >> $cfg
