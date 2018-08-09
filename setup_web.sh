@@ -123,8 +123,7 @@ if [[ ! -z $site ]]; then
         if [[ -f "/etc/letsencrypt/live/$site/fullchain.pem" ]]; then
                 echo "" >> $cfg
                 echo "  # - SSL config" >> $cfg
-                echo "  ssl_trusted_certificate \"/etc/letsencrypt/live/$site/fullchain.pem\";" >> $cfg
-                echo "  ssl_certificate \"/etc/letsencrypt/live/$site/cert.pem\";" >> $cfg
+                echo "  ssl_certificate \"/etc/letsencrypt/live/$site/fullchain.pem\";" >> $cfg
                 echo "  ssl_certificate_key \"/etc/letsencrypt/live/$site/privkey.pem\";" >> $cfg
                 echo "  ssl_session_cache shared:SSL:50m;" >> $cfg
                 echo "  ssl_session_timeout  1d;" >> $cfg
