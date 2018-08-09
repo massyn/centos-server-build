@@ -120,6 +120,7 @@ if [[ ! -z $site ]]; then
                 echo "  ssl_session_timeout  10m;" >> $cfg
                 echo "  ssl_ciphers HIGH:!aNULL:!MD5;" >> $cfg
                 echo "  ssl_prefer_server_ciphers on;" >> $cfg
+                echo "  ssl_protocols TLSv1.1 TLSv1.2;" >> $cfg
                 echo "" >> $cfg
                 echo "  # - Redirect unencrypted traffic to be encrypted" >> $cfg
                 echo "  if (\$server_port = 80) {" >> $cfg
