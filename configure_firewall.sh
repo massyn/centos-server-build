@@ -28,6 +28,9 @@ if [ `whoami` == "root" ]; then
         iptables -A INPUT -j DROP
 
         iptables -L
+        
+        iptables-save > /etc/sysconfig/iptables
+        ip6tables-save > /etc/sysconfig/ip6tables
 else
         echo "You are not root.  Run the script as sudo"
 fi
