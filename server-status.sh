@@ -23,9 +23,9 @@ function ind_status {
 
         # -- determination
         if [[ $status == 'failed' || $agedays > $timeout ]]; then
-                message("FAIL",$message)
+                message FAIL "$message"
         else
-                message("OK",$message)
+                message OK "$message"
         fi
 }
 
