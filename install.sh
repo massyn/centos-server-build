@@ -39,6 +39,7 @@ do
 done
 
 bash install_crontab.sh
+bash install_firewall.sh
 
 echo "export PATH=\$PATH:$app_path" >> /etc/profile
 echo "export PATH=\$PATH:$app_path" >> /etc/bashrc
