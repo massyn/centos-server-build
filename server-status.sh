@@ -23,10 +23,17 @@ function ind_status {
 
         # -- determination
         if [[ $status == 'failed' || $agedays > $timeout ]]; then
-                echo "FAIL - $message"
+                message("FAIL",$message)
         else
-                echo " OK  - $message"
+                message("OK",$message)
         fi
+}
+
+function message {
+        status=$1
+        text=$2
+        
+        echo "Status : $status - $text"
 }
 # == source the config file
 
@@ -34,12 +41,14 @@ if [[ ! -f /etc/server-build.sh ]]; then
         echo "You need to run config.sh first"
         exit 1
 fi
+. /etc/server-build.sh
 
 # == checks we care about
 
 ind_status $log_path/maintain_os.ind 7 "Patches must be loaded once per week"
 ind_status $log_path/maintain_av.ind 1 "Anti-virus must run once per day"
 ind_status $log_path/maintain_backup.ind 1 "Backups must run once per day"
+ind_status $log_path/maintain_letsencrypt.ind 1 "Let's Encrypt checks run once per day"
 
 # Firewall enabled
 # SSL Enabled on all websites
