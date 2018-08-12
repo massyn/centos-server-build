@@ -11,6 +11,12 @@ function question {
         shift
         default=$1
         
+        # == read the variable that may already have been set
+        var=$(cat $CONFIG | grep -E "^$parameter=" | cut -d= -f2)
+        if [[ ! -z $var ]]; then
+                default=$var
+        fi
+
         if [[ -z $default ]]; then
                 echo "$question"
         else
