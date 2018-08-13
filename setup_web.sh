@@ -41,35 +41,37 @@ if [[ $? -ne 0 ]]; then
 fi
 
 # == check if php is installed
-rpm -q php | grep -Eq "^php-"
+rpm -q rh-php71 | grep -Eq "^rh-php71-"
 if [[ $? -ne 0 ]]; then
         echo "Installing php..."
-        yum install -y php php-mysql php-fpm
+
+        yum -y install centos-release-scl.noarch
+        yum -y install rh-php71 rh-php71-php rh-php71-php-fpm rh-php71-php-mysqlnd
 
         cat /etc/php.ini | sed "s/cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" > /etc/php.ini.new
         mv /etc/php.ini.new /etc/php.ini
 
-        cat /etc/php-fpm.d/www.conf | grep -vE "^(listen =|listen\.owner|listen.group|user =|group =)" > /etc/php-fpm.d/www.conf.new
+        cat /etc/opt/rh/rh-php71/php-fpm.d/www.conf | grep -v "^listen=" |grep -v "^user =" | grep -v "^group =" > /etc/opt/rh/rh-php71/php-fpm.d/www.conf.new
+        echo "listen = /var/run/php-fpm.sock" >> /etc/opt/rh/rh-php71/php-fpm.d/www.conf.new
+        echo "listen.owner = $wwwuser" >> /etc/opt/rh/rh-php71/php-fpm.d/www.conf.new
+        echo "listen.group = $wwwgroup" >> /etc/opt/rh/rh-php71/php-fpm.d/www.conf.new
+        echo "user = $wwwuser" >> /etc/opt/rh/rh-php71/php-fpm.d/www.conf.new
+        echo "group = $wwwgroup" >> /etc/opt/rh/rh-php71/php-fpm.d/www.conf.new
+        mv /etc/opt/rh/rh-php71/php-fpm.d/www.conf.new /etc/opt/rh/rh-php71/php-fpm.d/www.conf
 
-        echo "listen = /var/run/php-fpm/php-fpm.sock" >> /etc/php-fpm.d/www.conf.new
-        echo "listen.owner = nobody" >> /etc/php-fpm.d/www.conf.new
-        echo "listen.group = nobody" >> /etc/php-fpm.d/www.conf.new
-        echo "user = $wwwuser" >> /etc/php-fpm.d/www.conf.new
-        echo "group = $wwwgroup" >> /etc/php-fpm.d/www.conf.new
+        chown $wwwuser:$wwwgroup -R /var/opt/rh/rh-php71/lib/php/
 
-        mv /etc/php-fpm.d/www.conf.new /etc/php-fpm.d/www.conf
-
-        systemctl start php-fpm
-        systemctl enable php-fpm
+        systemctl enable rh-php71-php-fpm.service
+        systemctl stop rh-php71-php-fpm.service
+        systemctl start rh-php71-php-fpm.service
 fi
-
 if getent group $wwwgroup | grep &>/dev/null "\b${wwwuser}\b" ; then
         echo "User $wwwuser is in the group $wwwgroup"
 else
         echo "Adding $wwwuser to the group $wwwgroup"
         usermod -a -G $wwwgroup $wwwuser
 fi
-        
+
 # == check if wwwroot exists
 if [[ ! -d $wwwroot ]]; then
         echo "Creating $wwwroot"
@@ -97,7 +99,6 @@ if [[ ! -z $site ]]; then
 
         echo " - setting permissions..."
         chmod -R 755 $wwwroot/$site
-
         cfg=/etc/nginx/conf.d/$site.conf
         echo " - Creating config file ($cfg)"
 
@@ -118,7 +119,7 @@ if [[ ! -z $site ]]; then
         echo "  add_header Content-Security-Policy \"script-src 'strict-dynamic' 'nonce-rAnd0m123' 'unsafe-inline' http: https:;object-src 'none';base-uri 'none'\";" >> $cfg
         echo "  add_header Strict-Transport-Security \"max-age=31536000; includeSubdomains; preload\";" >> $cfg
         echo "  add_header Referrer-Policy same-origin;" >> $cfg
-        
+
         echo "" >> $cfg
         if [[ -f "/etc/letsencrypt/live/$site/fullchain.pem" ]]; then
                 echo "" >> $cfg
@@ -138,12 +139,11 @@ if [[ ! -z $site ]]; then
                 echo "          return 301 https://\$server_name\$request_uri;" >> $cfg
                 echo "  }" >> $cfg
         fi
-
         echo "" >> $cfg
         echo "  # - PHP config" >> $cfg
         echo "  location ~ \.php\$ {" >> $cfg
         echo "          try_files \$uri =404;" >> $cfg
-        echo "          fastcgi_pass unix:/var/run/php-fpm/php-fpm.sock;" >> $cfg
+        echo "          fastcgi_pass unix:/var/run/php-fpm.sock;" >> $cfg
         echo "          fastcgi_index index.php;" >> $cfg
         echo "          fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;" >> $cfg
         echo "          include fastcgi_params;" >> $cfg
