@@ -95,7 +95,7 @@ if [[ ! -z $site ]]; then
         fi
 
         echo " - setting ownership..."
-        chown -R $wwwuser:$wwwgroup $wwwroot/$site
+        chown -R $SUDO_USER:$wwwgroup $wwwroot/$site
 
         echo " - setting permissions..."
         chmod -R 755 $wwwroot/$site
