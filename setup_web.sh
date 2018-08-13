@@ -116,7 +116,8 @@ if [[ ! -z $site ]]; then
         echo "  add_header X-Frame-Options SAMEORIGIN;" >> $cfg
         echo "  add_header X-Content-Type-Options nosniff;" >> $cfg
         echo "  add_header X-XSS-Protection \"1; mode=block\";" >> $cfg
-        echo "  add_header Content-Security-Policy \"script-src 'nonce-rAnd0m123' 'unsafe-inline' http: https:;object-src 'none';base-uri 'none'\";" >> $cfg
+        # This one is tricky... It is WAYY too strict, and causes many sites to stop working.. It needs work.
+        #echo "  add_header Content-Security-Policy \"script-src 'nonce-rAnd0m123' 'unsafe-inline' http: https:;object-src 'none';base-uri 'none'\";" >> $cfg
         echo "  add_header Strict-Transport-Security \"max-age=31536000; includeSubdomains; preload\";" >> $cfg
         echo "  add_header Referrer-Policy same-origin;" >> $cfg
 
