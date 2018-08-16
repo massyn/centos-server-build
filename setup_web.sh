@@ -28,6 +28,8 @@ if [[ -z $(getent group $wwwgroup) ]]; then
         groupadd $wwwgroup
         echo "Adding $SUDO_USER to the group $wwwgroup"
         usermod -a -G $wwwgroup $SUDO_USER
+        echo "Setting $SUDO_USER GID to the group $wwwgroup"
+        usermod -g webmasters massyn
 else
         echo "Group $wwwgroup exists"
 fi
