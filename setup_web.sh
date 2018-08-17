@@ -118,8 +118,8 @@ if [[ ! -z $site ]]; then
         echo "  add_header X-Frame-Options SAMEORIGIN;" >> $cfg
         echo "  add_header X-Content-Type-Options nosniff;" >> $cfg
         echo "  add_header X-XSS-Protection \"1; mode=block\";" >> $cfg
-        # This one is tricky... It is WAYY too strict, and causes many sites to stop working.. It needs work.
-        #echo "  add_header Content-Security-Policy \"script-src 'nonce-rAnd0m123' 'unsafe-inline' http: https:;object-src 'none';base-uri 'none'\";" >> $cfg
+        # When you host everything on your own site, this is great.  You may need to tweak this if you have external resources.
+        echo "  add_header Content-Security-Policy \"default-src 'self'\";" >> $cfg
         echo "  add_header Strict-Transport-Security \"max-age=31536000; includeSubdomains; preload\";" >> $cfg
         echo "  add_header Referrer-Policy same-origin;" >> $cfg
 
@@ -182,7 +182,6 @@ echo "  tcp_nodelay         on;" >> $nginxconf
 echo "  keepalive_timeout   65;" >> $nginxconf
 echo "  server_tokens off;" >> $nginxconf
 echo "  types_hash_max_size 2048;" >> $nginxconf
-#echo " server_names_hash_bucket_size 64;" >> $nginxconf
 echo "  include             /etc/nginx/mime.types;" >> $nginxconf
 echo "  default_type        application/octet-stream;" >> $nginxconf
 echo "  include /etc/nginx/conf.d/*.conf;" >> $nginxconf
